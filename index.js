@@ -13,19 +13,20 @@ client.on('message', msg => {
 
 client.on('voiceStateUpdate', (oldState, newState) => {
     if (oldState.channel === null && newState.channel !== null) {
-        console.log(`Member [${newState.member.displayName}] joined channel <${newState.channel.name}> at timestamp {${Date.now()}}`)
+        console.log(`${newState.member.displayName}\tjoined_channel\t${newState.channel.name}\t${Date.now()}`)
     } else if (oldState.channel !== null && newState.channel === null) {
-        console.log(`Member [${newState.member.displayName}] left channel <${oldState.channel.name}> at timestamp {${Date.now()}}`)
+        console.log(`${newState.member.displayName}\tleft_channel\t${oldState.channel.name}\t${Date.now()}`)
     }else if (oldState.streaming || newState.streaming) {
         if (!oldState.streaming && newState.streaming) {
-            console.log(`Member [${newState.member.displayName}] started streaming in channel <${newState.channel.name}> at timestamp {${Date.now()}}`)
-        } else {
-            console.log(`Member [${newState.member.displayName}] stopped streaming in channel <${newState.channel.name}> at timestamp {${Date.now()}}`)
+            console.log(`${newState.member.displayName}\tstarted_streaming\t${newState.channel.name}\t${Date.now()}`)
+        } else if (oldState.streaming && !newState.streaming) {
+            console.log(`${newState.member.displayName}\tstopped_streaming\t${newState.channel.name}\t${Date.now()}`)
         }
     } else {
-        console.log(`Unrecognized state difference:`)
-        console.log(`oldState: ${JSON.stringify(oldState)}`)
-        console.log(`newState: ${JSON.stringify(newState)}`)
+        console.log(`---------------------------------------`)
+        console.log(`Unrecognized voiceStateUpdate difference:`)
+        console.log(`${JSON.stringify(oldState)}\n${JSON.stringify(oldState.member)}\n${JSON.stringify(oldState.member.User)}\n${JSON.stringify(newState)}`)
+        console.log(`---------------------------------------`)
     }
 })
 
